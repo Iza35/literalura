@@ -1,12 +1,16 @@
 package br.com.alura.literalura;
 
-import br.com.alura.literalura.service.ConsumoApi;
+import br.com.alura.literalura.principal.Principal;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class LiteraluraApplication implements CommandLineRunner {
+
+	@Autowired
+	private Principal principal;
 
 	public static void main(String[] args) {
 
@@ -15,18 +19,8 @@ public class LiteraluraApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		var consumoApi = new ConsumoApi();
-		var json =  consumoApi.obterDados("https://gutendex.com/books");
-		System.out.println(json);
+		principal.exibeMenu();
 
-		System.out.println("-----------");
-		System.out.println("Escolha um número de sua opção: ");
-		System.out.println(" 1- buscar livro pelo titulo ");
-		System.out.println(" 2- listar livros registrados ");
-		System.out.println(" 3- listar autores registrados ");
-		System.out.println(" 4- listar autores vivos em um determinado ano ");
-		System.out.println(" 5- listar livros em um determinado idioma ");
-		System.out.println(" 6- sair");
 	}
 
 }

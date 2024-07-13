@@ -8,37 +8,25 @@ import java.net.http.HttpResponse;
 
 public class ConsumoApi {
 
-//    public String obterDados(String endereco) {
-//        HttpClient client = HttpClient.newHttpClient();
-//        HttpRequest request = HttpRequest.newBuilder()
-//            .uri(URI.create(endereco))
-//            .build();
-//        HttpResponse<String> response = null;
-//        try {
-//            response = client
-//                .send(request, HttpResponse.BodyHandlers.ofString());
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        String json = response.body();
-//        return json;
-
-    int statusCode;
-    public String obterDados(String endereco) throws IOException, InterruptedException {
-        HttpClient client = HttpClient.newHttpClient();
+    public String obterDados(String endereco) {
+        HttpClient client = HttpClient.newBuilder()
+            .followRedirects(HttpClient.Redirect.NORMAL)
+            .build();
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(endereco))
             .build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        String newUrl = response.headers().firstValue("Location").orElse(null);
-
-        if (statusCode == 200) {
-            return response.body();
-        } else {
-            throw new RuntimeException("Erro ao acessar a API. Código de status: " + statusCode);
+        HttpResponse<String> response = null;
+        try {
+            response = client
+                .send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+
+        String json = response.body();
+        return json;
+
     }
 }
